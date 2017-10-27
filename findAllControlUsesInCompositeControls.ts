@@ -33,9 +33,9 @@ klaw('/Users/elliotplant/source/bamboo/modules', { filter: filterFunc })
       if (appFiledata.includes('extends IndexCompositeControl')) {
         if (fs.existsSync(testFilePath)) {
           const testFiledata = fs.readFileSync(testFilePath, 'utf-8');
-          if (!testFiledata.includes('fixture.addControlToComponent')) {
-            console.log(testFileName);
-          }
+          const fdescribedTestFileData = testFiledata.split(' fdescribe').join(' describe');
+          console.log(testFileName);
+          fs.writeFileSync(testFilePath, fdescribedTestFileData);
         }
       }
     });
