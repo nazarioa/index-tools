@@ -19,26 +19,23 @@ klaw('/Users/elliotplant/source/bamboo/modules', { filter: filterFunc })
   .on('data', (item: any) => {
     if (!item.stats.isDirectory()) {
       if (item.path.endsWith('component.ts')) {
-        fileMap[item.path] = item.path.replace('/app/', '/test/');
+        fileMap[item.path] = item.path.replace('/app/', '/test/').replace('.component.ts', '.component.spec.ts');
       }
     }
   })
   .on('end', () => {
-    console.log('Files with deprecated inputs:');
+    console.log('Composite control tests missing controls:');
     Object.keys(fileMap).forEach(appFilePath => {
       const testFilePath = fileMap[appFilePath];
       const tsFileName = appFilePath.split('/').reverse()[0];
       const testFileName = testFilePath.split('/').reverse()[0];
-      const tsFiledata = fs.readFileSync(appFilePath, 'utf-8');
-      if (tsFiledata.includes('extends IndexCompositeControl')) {
-        console.log(testFileName);
-        if (tsFiledata.includes('this.control')) {
-          console.log(tsFileName);
-          fs.writeFileSync(appFilePath, replaceAll(tsFiledata, 'this.control', 'this.viewControl'));
-        }
-        const htmlFiledata = fs.readFileSync(testFilePath, 'utf-8');
-        if (htmlFiledata.search(/[\"\s]control/) > -1) {
-          // fs.writeFileSync(testFilePath, replaceAll(htmlFiledata, '"control', '"viewControl'));
+      const appFiledata = fs.readFileSync(appFilePath, 'utf-8');
+      if (appFiledata.includes('extends IndexCompositeControl')) {
+        if (fs.existsSync(testFilePath)) {
+          const testFiledata = fs.readFileSync(testFilePath, 'utf-8');
+          if (!testFiledata.includes('fixture.addControlToComponent')) {
+            console.log(testFileName);
+          }
         }
       }
     });
