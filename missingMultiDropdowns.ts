@@ -42,11 +42,11 @@ function findNewMultis(filesWithMultis: [string, number][]) {
   filesWithMultis.forEach(([path, oldMultiCount]) => {
     const newFileData = fs.readFileSync(path).toString();
     const newMultiCount = count(newFileData, 'multi');
-    // if (newMultiCount !== oldMultiCount) {
+    if (newMultiCount !== oldMultiCount) {
       console.log('Mismatched Count:');
       console.log(path.split('/').reverse()[0], oldMultiCount, newMultiCount);
       console.log();
-    // }
+    }
   });
 }
 findOldMultis(findNewMultis);
