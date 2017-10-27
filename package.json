@@ -1,0 +1,16 @@
+{
+  "name": "utils",
+  "version": "1.0.0",
+  "description": "Local utils for elliotaplant",
+  "main": "null",
+  "scripts": {
+    "test": "null"
+  },
+  "author": "elliotaplant@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "@types/klaw": "^2.1.0",
+    "@types/node": "^8.0.47",
+    "klaw": "^2.1.0"
+  }
+}
