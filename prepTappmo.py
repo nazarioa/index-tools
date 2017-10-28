@@ -21,6 +21,8 @@ bootstrapDevMainFilePath = bootstrapFolder + 'BootstrapDevMain.java'
 bootstrapMainFilePath = bootstrapFolder + 'BootstrapMain.java'
 fenderMvcConfigurerPath = 'server/fender/src/main/java/com/goindex/server/' \
                           'fender/spring/config/FenderMvcConfigurer.java'
+caterpillarMvcConfigurerPath = 'tools/caterpillar/src/main/java/com/goindex/tools/' \
+                          'caterpillar/spring/config/CaterpillarMvcConfigurer.java'
 incoreServerFilePath = 'tests/cluster/src/test/java/com/goindex/tests/cluster/incore/IncoreServerContainer.java'
 backupExtension = '.bak'
 
@@ -53,6 +55,17 @@ with fileinput.FileInput(fenderMvcConfigurerPath, inplace=True,
                             .format(getpass.getuser()))
         print(line, end='')
 os.remove(fenderMvcConfigurerPath + backupExtension)
+
+print('Editing CaterpillarMvcConfigurer for development')
+with fileinput.FileInput(caterpillarMvcConfigurerPath, inplace=True,
+                         backup=backupExtension) as caterpillarMvcConfigurerFile:
+    for line in caterpillarMvcConfigurerFile:
+        line = line.replace('// Map module/*.html matches to'
+                            ' the resource/module/ directory.',
+                            'resourceDir = "file:/Users/{0}/source/bamboo";'
+                            .format(getpass.getuser()))
+        print(line, end='')
+os.remove(caterpillarMvcConfigurerPath + backupExtension)
 
 print('Adding canary key to periscope field')
 with fileinput.FileInput(incoreServerFilePath, inplace=True,
