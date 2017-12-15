@@ -5,6 +5,7 @@ import getpass
 
 # A helper script for setting up tappmo for local development
 # Must be run from either ~/source/com.tappmo or ~/source/bamboo
+# @author elliot@index.com
 
 if os.getcwd().endswith('bamboo'):
     os.chdir('../com.tappmo')
